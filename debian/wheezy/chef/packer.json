@@ -2,10 +2,30 @@
     "builders": [
         {
             "type": "virtualbox-iso",
+            "name": "debian-wheezy-chef-vbox",
             "iso_url": "http://cdimage.debian.org/debian-cd/current/i386/iso-cd/debian-7.4.0-i386-netinst.iso",
             "iso_checksum": "7339b668a81b417ac023d73739dc6a03",
             "iso_checksum_type": "md5",
             "guest_os_type": "Debian",
+            "headless": false,
+            "disk_size": 5120,
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "http_directory": ".",
+            "http_port_min": 9000,
+            "http_port_max": 9500,
+            "boot_wait": "5s",
+            "boot_command": ["<esc><wait>auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<enter>"],
+            "shutdown_command": "sudo halt -p",
+            "vm_name": "debian-wheezy-chef"
+        },
+        {
+            "type": "vmware-iso",
+            "name": "debian-wheezy-chef-vmware",
+            "iso_url": "http://cdimage.debian.org/debian-cd/current/i386/iso-cd/debian-7.4.0-i386-netinst.iso",
+            "iso_checksum": "7339b668a81b417ac023d73739dc6a03",
+            "iso_checksum_type": "md5",
+            "guest_os_type": "debian7",
             "headless": false,
             "disk_size": 5120,
             "ssh_username": "vagrant",
@@ -39,8 +59,15 @@
     "post-processors": [
         {
             "type": "vagrant",
+            "only": ["debian-wheezy-chef-vbox"],
             "keep_input_artifact": true,
-            "output": "debian-wheezy-chef.box"
+            "output": "debian-wheezy-chef-vbox.box"
+        },
+        {
+            "type": "vagrant",
+            "only": ["debian-wheezy-chef-vmware"],
+            "keep_input_artifact": true,
+            "output": "debian-wheezy-chef-vmware.box"
         }
     ]
 }
