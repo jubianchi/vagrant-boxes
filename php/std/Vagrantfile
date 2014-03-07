@@ -44,7 +44,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             chef.json = {
                 :php => {
                     :install_method => 'source',
-                    :version => '5.5.9'
+                    :version => '5.5.10'
                 }
             }
         end
