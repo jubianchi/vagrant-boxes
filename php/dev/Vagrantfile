@@ -18,6 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     config.vm.define :php55 do |php55|
         php55.vm.box = 'jubianchi/php-55'
+        config.vm.box_version = '~> 0.2.0'
     end
 
     config.vm.define :php56 do |php56|
