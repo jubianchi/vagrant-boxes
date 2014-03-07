@@ -1,0 +1,7 @@
+vendor/
+
+output-*/
+packer_cache/
+
+.vagrant/
+*.box
