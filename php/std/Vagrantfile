@@ -1,0 +1,73 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = '2'
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    config.vm.box = 'jubianchi/debian-wheezy-chef'
+
+    config.vm.provider 'virtualbox' do |vbox|
+        vbox.memory = 1024
+
+        vbox.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+        vbox.customize ['modifyvm', :id, '--ioapic', 'on']
+        vbox.customize ['modifyvm', :id, '--cpus', '2']
+    end
+
+    config.vm.define :php54 do |php54|
+        php54.vm.hostname = 'php54'
+
+        php54.vm.provision :chef_solo do |chef|
+            #chef.log_level = :debug
+            chef.cookbooks_path = %w(../../vendor/cookbooks)
+            chef.run_list = %w(
+                php
+            )
+            chef.json = {
+                :php => {
+                    :install_method => 'source',
+                    :version => '5.4.25'
+                }
+            }
+        end
+    end
+
+    config.vm.define :php55 do |php55|
+        php55.vm.hostname = 'php55'
+
+        php55.vm.provision :chef_solo do |chef|
+            #chef.log_level = :debug
+            chef.cookbooks_path = %w(../../vendor/cookbooks)
+            chef.run_list = %w(
+                php
+            )
+            chef.json = {
+                :php => {
+                    :install_method => 'source',
+                    :version => '5.5.9'
+                }
+            }
+        end
+    end
+
+    config.vm.define :php56 do |php56|
+        php56.vm.hostname = 'php56'
+
+        php56.vm.provision :chef_solo do |chef|
+            #chef.log_level = :debug
+            chef.cookbooks_path = %w(../../vendor/cookbooks)
+            chef.run_list = %w(
+                php
+            )
+            chef.json = {
+                :php => {
+                    :install_method => 'source',
+                    :url => 'http://downloads.php.net/tyrael/',
+                    :version => '5.6.0alpha3'
+                }
+            }
+        end
+    end
+
+    config.vm.provision :shell, inline: 'sudo wget -O /usr/local/bin/composer http://getcomposer.org/composer.phar && sudo chmod +x /usr/local/bin/composer'
+end
