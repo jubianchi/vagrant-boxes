@@ -1,0 +1,51 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = '2'
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    config.vm.define :php54 do |php54|
+        php54.vm.box = 'jubianchi/php-54'
+        php54.vm.hostname = 'hoaproject-php54'
+    end
+
+    config.vm.define :php55 do |php55|
+        php55.vm.box = 'jubianchi/php-55'
+        php55.vm.hostname = 'hoaproject-php55'
+    end
+
+    config.vm.define :php56 do |php56|
+        php56.vm.box = 'jubianchi/php-56'
+        php56.vm.hostname = 'hoaproject-php56'
+    end
+
+    #ls++
+    config.vm.provision :shell, inline: 'sudo cpan Term::ExtendedColor'
+    config.vm.provision :shell, inline: 'sudo git clone git://github.com/trapd00r/ls--.git /usr/local/src/ls--'
+    config.vm.provision :shell, inline: 'cd /usr/local/src/ls-- && sudo perl Makefile.PL'
+    config.vm.provision :shell, inline: 'cd /usr/local/src/ls-- && make && sudo make install'
+
+    # ZSH
+    config.vm.provision :shell, inline: 'sudo apt-get install -y zsh'
+    config.vm.provision :shell, inline: 'sudo chsh -s $(which zsh) vagrant'
+
+    # Hoa.Central
+    config.vm.provision :shell, inline: '[ -d /usr/local/lib/Hoa.Central ] && git --git-dir /usr/local/lib/Hoa.Central/.git pull || true'
+    config.vm.provision :shell, inline: '[ -d /usr/local/lib/Hoa.Central ] || git clone http://git.hoa-project.net/Central.git /usr/local/lib/Hoa.Central'
+    config.vm.provision :shell, inline: '[ -L /usr/local/bin/hoa ] || ln -s /usr/local/lib/Hoa.Central/Hoa/Core/Bin/hoa /usr/local/bin/hoa'
+    config.vm.provision :shell, inline: '[ -L /usr/local/lib/Hoa ] || ln -s /usr/local/lib/Hoa.Central/Hoa /usr/local/lib/Hoa'
+
+    # Hoa.Dotfiles
+    config.vm.provision :shell, inline: '[ -d /usr/local/lib/Hoa.Dotfiles ] && git --git-dir /usr/local/lib/Hoa.Dotfiles/.git pull || true'
+    config.vm.provision :shell, inline: '[ -d /usr/local/lib/Hoa.Dotfiles ] || git clone https://github.com/Hywan/Dotfiles /usr/local/lib/Hoa.Dotfiles'
+    config.vm.provision :shell, inline: 'cd /usr/local/lib/Hoa.Dotfiles && git submodule update --init --recursive'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp -R /usr/local/lib/Hoa.Dotfiles/vim /home/vagrant/.vim'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H rm -f /home/vagrant/.vim/plugin/xml.vim'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp -R /usr/local/lib/Hoa.Dotfiles/zsh /home/vagrant/.zsh'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp /usr/local/lib/Hoa.Dotfiles/vimrc /home/vagrant/.vimrc'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp /usr/local/lib/Hoa.Dotfiles/zshrc /home/vagrant/.zshrc'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp /usr/local/lib/Hoa.Dotfiles/alias /home/vagrant/.alias'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp /usr/local/lib/Hoa.Dotfiles/function /home/vagrant/.function'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp /usr/local/lib/Hoa.Dotfiles/ls++.conf /home/vagrant/.ls++.conf'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H touch /home/vagrant/.path'
+end
