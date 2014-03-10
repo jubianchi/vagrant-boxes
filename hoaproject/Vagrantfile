@@ -35,17 +35,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.provision :shell, inline: '[ -L /usr/local/bin/hoa ] || ln -s /usr/local/lib/Hoa.Central/Hoa/Core/Bin/hoa /usr/local/bin/hoa'
     config.vm.provision :shell, inline: '[ -L /usr/local/lib/Hoa ] || ln -s /usr/local/lib/Hoa.Central/Hoa /usr/local/lib/Hoa'
 
-    # Hoa.Dotfiles
-    config.vm.provision :shell, inline: '[ -d /usr/local/lib/Hoa.Dotfiles ] && git --git-dir /usr/local/lib/Hoa.Dotfiles/.git pull || true'
-    config.vm.provision :shell, inline: '[ -d /usr/local/lib/Hoa.Dotfiles ] || git clone https://github.com/Hywan/Dotfiles /usr/local/lib/Hoa.Dotfiles'
-    config.vm.provision :shell, inline: 'cd /usr/local/lib/Hoa.Dotfiles && git submodule update --init --recursive'
-    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp -R /usr/local/lib/Hoa.Dotfiles/vim /home/vagrant/.vim'
+    # Hywan.Dotfiles
+    config.vm.provision :shell, inline: '[ -d /usr/local/lib/Hywan.Dotfiles ] && git --git-dir /usr/local/lib/Hywan.Dotfiles/.git pull || true'
+    config.vm.provision :shell, inline: '[ -d /usr/local/lib/Hywan.Dotfiles ] || git clone https://github.com/Hywan/Dotfiles /usr/local/lib/Hywan.Dotfiles'
+    config.vm.provision :shell, inline: 'cd /usr/local/lib/Hywan.Dotfiles && git submodule update --init --recursive'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp -R /usr/local/lib/Hywan.Dotfiles/vim /home/vagrant/.vim'
     config.vm.provision :shell, inline: 'sudo -u vagrant -H rm -f /home/vagrant/.vim/plugin/xml.vim'
-    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp -R /usr/local/lib/Hoa.Dotfiles/zsh /home/vagrant/.zsh'
-    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp /usr/local/lib/Hoa.Dotfiles/vimrc /home/vagrant/.vimrc'
-    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp /usr/local/lib/Hoa.Dotfiles/zshrc /home/vagrant/.zshrc'
-    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp /usr/local/lib/Hoa.Dotfiles/alias /home/vagrant/.alias'
-    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp /usr/local/lib/Hoa.Dotfiles/function /home/vagrant/.function'
-    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp /usr/local/lib/Hoa.Dotfiles/ls++.conf /home/vagrant/.ls++.conf'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp -R /usr/local/lib/Hywan.Dotfiles/zsh /home/vagrant/.zsh'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp /usr/local/lib/Hywan.Dotfiles/vimrc /home/vagrant/.vimrc'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp /usr/local/lib/Hywan.Dotfiles/zshrc /home/vagrant/.zshrc'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp /usr/local/lib/Hywan.Dotfiles/alias /home/vagrant/.alias'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp /usr/local/lib/Hywan.Dotfiles/function /home/vagrant/.function'
+    config.vm.provision :shell, inline: 'sudo -u vagrant -H cp /usr/local/lib/Hywan.Dotfiles/ls++.conf /home/vagrant/.ls++.conf'
     config.vm.provision :shell, inline: 'sudo -u vagrant -H touch /home/vagrant/.path'
 end
