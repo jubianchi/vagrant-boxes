@@ -1,0 +1,6 @@
+{
+    "arch": "amd64",
+    "name": "debian-wheezy-chef-amd64",
+    "iso_url": "http://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-7.4.0-amd64-netinst.iso",
+    "iso_checksum": "e7e9433973f082a297793c3c5010b2c5"
+}
