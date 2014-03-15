@@ -69,5 +69,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         end
     end
 
+    config.vm.define :php_master do |php_master|
+        php_master.vm.hostname = 'php-master'
+
+        php_master.vm.provision :chef_solo do |chef|
+            #chef.log_level = :debug
+            chef.cookbooks_path = %w(../../vendor/cookbooks)
+            chef.run_list = %w(
+                php
+            )
+            chef.json = {
+                :php => {
+                    :install_method => 'source',
+                    :url => 'http://snaps.php.net/',
+                    :version => 'master-201403102030'
+                }
+            }
+        end
+    end
+
     config.vm.provision :shell, inline: 'sudo wget -O /usr/local/bin/composer http://getcomposer.org/composer.phar && sudo chmod +x /usr/local/bin/composer'
 end
