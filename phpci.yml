@@ -3,6 +3,5 @@ ld_settings:
 
 test:
     shell:
-        command:
-            - cd debian/wheezy/chef
-            - packer build -var-file=../i386.json packer.json -only=debian-wheezy-chef-i386-vbox
+        command: "cd debian/wheezy/chef && packer build -var-file=../i386.json packer.json -only=debian-wheezy-chef-i386-vbox"
+
