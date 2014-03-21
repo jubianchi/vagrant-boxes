@@ -5,7 +5,7 @@
         "iso_url": "",
         "iso_checksum": "",
 
-        "headless": false,
+        "headless": true,
         "disk_size": 5120,
         "ssh_username": "vagrant",
         "ssh_password": "vagrant",
