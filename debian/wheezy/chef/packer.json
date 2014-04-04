@@ -68,7 +68,10 @@
                 "chmod 0600 /home/vagrant/.ssh/authorized_keys",
                 "chown -R vagrant:vagrant /home/vagrant/",
 
-                "curl -L https://www.opscode.com/chef/install.sh | sudo bash -s -- -v 11.10.0"
+                "curl -L https://www.opscode.com/chef/install.sh | sudo bash -s -- -v 11.10.0",
+
+                "dd if=/dev/zero of=/tmp/zero bs=1M",
+                "rm -f /tmp/zero"
             ]
         }
     ],
