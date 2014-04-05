@@ -1,0 +1,64 @@
+{
+    "variables": {
+        "arch": "",
+        "name": "",
+        "iso_url": "",
+        "iso_checksum": "",
+
+        "headless": true,
+        "disk_size": 5120,
+        "ssh_username": "vagrant",
+        "ssh_password": "vagrant",
+        "http_directory": ".",
+        "http_port_min": 9000,
+        "http_port_max": 9500,
+        "boot_wait": "5s",
+        "shutdown_command": "sudo halt -p"
+    },
+
+    "builders": [
+        {
+            "type": "vmware-iso",
+            "name": "{{user `name`}}-vmware",
+            "iso_url": "{{user `iso_url`}}",
+            "iso_checksum": "{{user `iso_checksum`}}",
+            "iso_checksum_type": "md5",
+            "guest_os_type": "debian7-64",
+            "headless": "{{user `headless`}}",
+            "disk_size": "{{user `disk_size`}}",
+            "ssh_username": "{{user `ssh_username`}}",
+            "ssh_password": "{{user `ssh_password`}}",
+            "http_directory": "{{user `http_directory`}}",
+            "http_port_min": "{{user `http_port_min`}}",
+            "http_port_max": "{{user `http_port_max`}}",
+            "boot_wait": "{{user `boot_wait`}}",
+            "boot_command": ["<esc><wait>auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<enter>"],
+            "shutdown_command": "{{user `shutdown_command`}}",
+            "vm_name": "{{user `name`}}",
+            "tools_upload_flavor": "linux",
+            "tools_upload_path": "/home/vagrant/vmware_tools.iso"
+        }
+    ],
+
+    "provisioners": [
+        {
+            "type": "shell",
+            "scripts": [
+                "../../scripts/packages.sh",
+                "../../../scripts/vagrant.sh",
+                "../../../scripts/chef.sh",
+                "../../../scripts/vmware.sh",
+                "../../../scripts/trim.sh"
+            ]
+        }
+    ],
+
+    "post-processors": [
+        {
+            "type": "vagrant",
+            "compression_level": 9,
+            "keep_input_artifact": true,
+            "output": "{{.BuildName}}.box"
+        }
+    ]
+}
