@@ -23,6 +23,8 @@ amd64-vbox:
 clean-all: clean-boxes clean-cache
 
 clean-boxes:
+	vagrant destroy -f
+	vagrant box remove debian-wheezy-chef
 	rm -f *.box
 
 clean-cache:
