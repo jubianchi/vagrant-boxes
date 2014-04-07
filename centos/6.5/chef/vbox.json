@@ -1,0 +1,66 @@
+{
+    "variables": {
+        "arch": "",
+        "name": "",
+        "iso_url": "",
+        "iso_checksum": "",
+
+        "headless": false,
+        "disk_size": 10240,
+        "ssh_username": "vagrant",
+        "ssh_password": "vagrant",
+        "http_directory": "../",
+        "http_port_min": 9000,
+        "http_port_max": 9500,
+        "boot_wait": "5s",
+        "shutdown_command": "sudo halt -p"
+    },
+
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "name": "{{user `name`}}-vbox",
+            "iso_url": "{{user `iso_url`}}",
+            "iso_checksum": "{{user `iso_checksum`}}",
+            "iso_checksum_type": "md5",
+            "guest_os_type": "Debian_64",
+            "headless": "{{user `headless`}}",
+            "disk_size": "{{user `disk_size`}}",
+            "ssh_username": "{{user `ssh_username`}}",
+            "ssh_password": "{{user `ssh_password`}}",
+            "http_directory": "{{user `http_directory`}}",
+            "http_port_min": "{{user `http_port_min`}}",
+            "http_port_max": "{{user `http_port_max`}}",
+            "boot_wait": "{{user `boot_wait`}}",
+            "boot_command": ["<wait><esc><wait>linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `arch`}}/preseed.ks<enter>"],
+            "shutdown_command": "{{user `shutdown_command`}}",
+            "vboxmanage": [
+                ["modifyvm", "{{.Name}}", "--memory", "1024"],
+                ["modifyvm", "{{.Name}}", "--cpus", "2"]
+            ],
+            "vm_name": "{{user `name`}}"
+        }
+    ],
+
+    "provisioners": [
+        {
+            "type": "shell",
+            "scripts": [
+                "../../scripts/packages.sh",
+                "../../../scripts/vagrant.sh",
+                "../../../scripts/chef.sh",
+                "../../../scripts/vbox.sh",
+                "../../../scripts/trim.sh"
+            ]
+        }
+    ],
+
+    "post-processors": [
+        {
+            "type": "vagrant",
+            "compression_level": 4,
+            "keep_input_artifact": true,
+            "output": "{{.BuildName}}.box"
+        }
+    ]
+}
