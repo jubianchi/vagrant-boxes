@@ -26,7 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             chef.json = {
                 :php => {
                     :install_method => 'source',
-                    :version => '5.4.25'
+                    :version => '5.4.27'
                 }
             }
         end
@@ -44,7 +44,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             chef.json = {
                 :php => {
                     :install_method => 'source',
-                    :version => '5.5.10'
+                    :version => '5.5.11'
                 }
             }
         end
@@ -69,8 +69,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         end
     end
 
-    config.vm.define :php_master do |php_master|
-        php_master.vm.hostname = 'php-master'
+    config.vm.define :phpmaster do |php_master|
+        php_master.vm.hostname = 'phpmaster'
 
         php_master.vm.provision :chef_solo do |chef|
             #chef.log_level = :debug
@@ -82,7 +82,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                 :php => {
                     :install_method => 'source',
                     :url => 'http://snaps.php.net/',
-                    :version => 'master-201403102030'
+                    :version => 'master-201404071830'
                 }
             }
         end
