@@ -18,12 +18,12 @@
 
     "builders": [
         {
-            "type": "virtualbox-iso",
-            "name": "{{user `name`}}-vbox",
+            "type": "vmware-iso",
+            "name": "{{user `name`}}-vmware",
             "iso_url": "{{user `iso_url`}}",
             "iso_checksum": "{{user `iso_checksum`}}",
             "iso_checksum_type": "md5",
-            "guest_os_type": "Debian_64",
+            "guest_os_type": "debian7-64",
             "headless": "{{user `headless`}}",
             "disk_size": "{{user `disk_size`}}",
             "ssh_username": "{{user `ssh_username`}}",
@@ -32,13 +32,11 @@
             "http_port_min": "{{user `http_port_min`}}",
             "http_port_max": "{{user `http_port_max`}}",
             "boot_wait": "{{user `boot_wait`}}",
-            "boot_command": ["<wait><esc><wait>linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `arch`}}/preseed.ks<enter>"],
+            "boot_command": ["<esc><wait>linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `arch`}}/preseed.ks<enter>"],
             "shutdown_command": "{{user `shutdown_command`}}",
-            "vboxmanage": [
-                ["modifyvm", "{{.Name}}", "--memory", "1024"],
-                ["modifyvm", "{{.Name}}", "--cpus", "2"]
-            ],
-            "vm_name": "{{user `name`}}"
+            "vm_name": "{{user `name`}}",
+            "tools_upload_flavor": "linux",
+            "tools_upload_path": "/home/vagrant/vmware_tools.iso"
         }
     ],
 
@@ -49,7 +47,7 @@
                 "../../scripts/packages.sh",
                 "../../../scripts/vagrant.sh",
                 "../../../scripts/chef.sh",
-                "../../../scripts/vbox.sh",
+                "../../../scripts/vmware.sh",
                 "../../../scripts/trim.sh"
             ]
         }

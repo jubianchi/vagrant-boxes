@@ -6,8 +6,8 @@ Vagrant.configure(2) do |config|
 
     archs.each do |arch|
         providers.each do |provider|
-            config.vm.define :"#{arch}-#{provider}" do |i386|
-                i386.vm.box_url = "centos-65-chef-#{arch}-#{provider}-1.0.0.box"
+            config.vm.define :"#{arch}-#{provider}" do |box|
+                box.vm.box_url = "centos-65-chef-#{arch}-#{provider}-1.0.0.box"
             end
         end
     end
